@@ -4,56 +4,62 @@
 
 #ifndef EX3_BOUNDEDQ_H
 #define EX3_BOUNDEDQ_H
+
 #include <iostream>
 #include <vector>
 #include <mutex>
 #include <semaphore.h>
 #include <unistd.h>
-
+#include <thread>
+#include <pthread.h>
+#include <string>
+#include <queue>
 
 
 using namespace std;
 
 
-
-std::mutex mtxBQ;
 class BoundedQ {
 private:
-    std::vector<string> BQ;
+    queue<string> BQ;
     sem_t empty;
     sem_t full;
+    pthread_mutex_t mtxBQ;
+    bool done;
 public:
     BoundedQ(int bounded) {
+        this->done = false;
+        this->BQ = queue<string>();
         sem_init(&(this->empty), 0, bounded);
         sem_init(&(this->full), 0, 0);
+        pthread_mutex_init(&mtxBQ, NULL);
     }
-
-    ~BoundedQ() {
-        BQ.clear();
-    }
-
 
     void insert(string x) {
         sem_wait(&empty);
-        mtxBQ.lock();
-        BQ.push_back(x);
-        mtxBQ.unlock();
-        sleep(0.1);
+        pthread_mutex_lock(&mtxBQ);
+        BQ.push(x);
+        pthread_mutex_unlock(&mtxBQ);
         sem_post(&full);
     }
 
     string remove() {
         sem_wait(&full);
-        mtxBQ.lock();
-        if (BQ.empty())
-            return nullptr;
-        string toReturn = BQ.at(BQ.size());
-        BQ.pop_back();
-        mtxBQ.unlock();
+        pthread_mutex_lock(&mtxBQ);
+        string toReturn = BQ.front();
+        BQ.pop();
+        pthread_mutex_unlock(&mtxBQ);
         sem_post(&empty);
-        sleep(0.1);
         return toReturn;
     }
 
+    void emptyDone(){
+        this->done = true;
+    }
+    bool isEmpty(){
+        return this->done;
+    }
+
 };
+
 #endif //EX3_BOUNDEDQ_H
