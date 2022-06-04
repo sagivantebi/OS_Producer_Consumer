@@ -1,0 +1,1 @@
+g++ -std=c++11 ex3.cpp BoundedQ.h UnboundedQ.h -pthread -o ex3.out
