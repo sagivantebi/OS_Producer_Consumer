@@ -1,10 +1,10 @@
+//Author: Sagiv Antebi
+
 #include "UnboundedQ.h"
 #include "BoundedQ.h"
 #include <fstream>
-#include <string>
 
 #define N 3
-#define NUM_ARTICLES 3
 #define BOUNDED 1
 #define DONE "DONE"
 #define SPORTS "SPORTS"
@@ -31,18 +31,18 @@ void Producer(int id, int numberArticles) {
     int cSport = 0, cNews = 0, cWhether = 0;
     int typeArt;
     int i;
-    for (i = 0; i < numberArticles - 1; ++i) {
+    for (i = 0; i < numberArticles; ++i) {
         typeArt = rand() % 3;
         if (typeArt == 0) {
-            s = "Producer " + to_string(id) + " " + SPORTS + " " + to_string(cSport);
+            s = "Producer " + to_string(id + 1) + " " + SPORTS + " " + to_string(cSport);
             producers[id].insert(s);
             cSport++;
         } else if (typeArt == 1) {
-            s = "Producer " + to_string(id) + " " + NEWS + " " + to_string(cNews);
+            s = "Producer " + to_string(id + 1) + " " + NEWS + " " + to_string(cNews);
             producers[id].insert(s);
             cNews++;
         } else {
-            s = "Producer " + to_string(id) + " " + WHETHER + " " + to_string(cWhether);
+            s = "Producer " + to_string(id + 1) + " " + WHETHER + " " + to_string(cWhether);
             producers[id].insert(s);
             cWhether++;
         }
@@ -145,7 +145,6 @@ void ScreenManager() {
         sScreenManager = CoPQ.remove();
     }
 }
-
 
 
 vector<producerArgs> readConfig(char *path) {
