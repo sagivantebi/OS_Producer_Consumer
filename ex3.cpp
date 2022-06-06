@@ -1,4 +1,4 @@
-//Author: Sagiv Antebi
+//Sagiv Antebi
 
 #include "UnboundedQ.h"
 #include "BoundedQ.h"
@@ -9,7 +9,8 @@
 #define DONE "DONE"
 #define SPORTS "SPORTS"
 #define NEWS "NEWS"
-#define WHETHER "WHETHER"
+#define WEATHER "WEATHER"
+
 
 using namespace std;
 
@@ -42,7 +43,7 @@ void Producer(int id, int numberArticles) {
             producers[id].insert(s);
             cNews++;
         } else {
-            s = "Producer " + to_string(id + 1) + " " + WHETHER + " " + to_string(cWhether);
+            s = "Producer " + to_string(id + 1) + " " + WEATHER + " " + to_string(cWhether);
             producers[id].insert(s);
             cWhether++;
         }
@@ -70,7 +71,7 @@ void Dispatcher() {
                         SportsQ.insert(sDisp);
                     } else if (sDisp.find(NEWS) != std::string::npos) {
                         NewsQ.insert(sDisp);
-                    } else if (sDisp.find(WHETHER) != std::string::npos) {
+                    } else if (sDisp.find(WEATHER) != std::string::npos) {
                         WhetherQ.insert(sDisp);
                     } else if (sDisp == DONE) {
                         producers[i].emptyDone();
