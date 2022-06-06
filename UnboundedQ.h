@@ -1,6 +1,4 @@
-//
-// Created by sagib on 6/1/22.
-//
+//Sagiv Antebi
 
 #ifndef EX3_UNBOUNDEDQ_H
 #define EX3_UNBOUNDEDQ_H
@@ -35,6 +33,7 @@ public:
         UBQ.push(x);
         pthread_mutex_unlock(&mtxUBQ);
         sem_post(&full);
+        usleep(100000);
     }
 
     string remove() {
