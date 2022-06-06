@@ -1,6 +1,4 @@
-//
-// Created by sagib on 6/1/22.
-//
+//Sagiv Antebi 
 
 #ifndef EX3_BOUNDEDQ_H
 #define EX3_BOUNDEDQ_H
@@ -41,6 +39,7 @@ public:
         BQ.push(x);
         pthread_mutex_unlock(&mtxBQ);
         sem_post(&full);
+        usleep(100000);
     }
 
     string remove() {
